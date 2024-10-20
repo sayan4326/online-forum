@@ -8,4 +8,7 @@ import com.yourcompanyname.forum.entities.ForumUser;
 @Repository
 public interface IForumUserRepository extends JpaRepository<ForumUser, Long>{
 
+	public ForumUser  findForumUserByUserName(String userName);
+	public ForumUser findForumUserByEmail(String email);
+
 }

@@ -45,7 +45,16 @@ public class UserController {
 	@PostMapping("/api/auth/register")
 	public ResponseEntity<?> createUser(@Valid @RequestBody ForumUser user) {
 		user.setUserId(null);
+		ForumUser forumUserByUserName = userRepository.findForumUserByUserName(user.getUserName());
+		if (forumUserByUserName != null)
+			throw new BusinessException("User Name Already Taken", HttpStatus.CONFLICT);
+
+		ForumUser forumUserByEmail = userRepository.findForumUserByEmail(user.getUserName());
+		if (forumUserByEmail != null)
+			throw new BusinessException("User already exists", HttpStatus.CONFLICT);
+
 		ForumUser createdUser = userRepository.save(user);
+
 		return new ResponseEntity<ForumUser>(createdUser, HttpStatus.CREATED);
 	}
 
